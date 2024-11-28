@@ -5,6 +5,9 @@ import { Button } from '../ui/Button';
 import { UserCircle, Building2, Key, Award } from 'lucide-react';
 import { MUNICIPALITIES } from '../../utils/municipalities';
 
+import { MUNICIPALITIES } from '../../utils/municipalities';
+console.log('MUNICIPALITIES loaded:', MUNICIPALITIES);
+
 interface UserFormProps {
   onSubmit: (data: Omit<User, 'id'>) => Promise<void>;
   initialData?: User | null;
