@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { User, Certification } from '../../../types';
-import { Button } from '../../ui/Button';
+import { User, Certification } from '../../types';
+import { Button } from '../ui/Button';
 import { UserCircle, Building2, Key, Award } from 'lucide-react';
 import { MUNICIPALITIES } from '../../utils/municipalities';
 
@@ -266,18 +266,23 @@ export function UserForm({
             </div>
 
             {/* Certificaciones */}
-            <div className={`space-y-2 ${activeTab === 'certificaciones' ? 'block' : 'hidden'}`}>
-              {CERTIFICATION_OPTIONS.map((cert) => (
-                <label key={cert.value} className="flex items-center space-x-2 p-2 rounded hover:bg-gray-50">
-                  <input
-                    type="checkbox"
-                    checked={selectedCertifications.includes(cert.value as Certification)}
-                    onChange={() => handleCertificationChange(cert.value as Certification)}
-                    className="rounded border-gray-300 text-green-600 focus:ring-green-500"
-                  />
-                  <span className="text-sm text-gray-700">{cert.label}</span>
-                </label>
-              ))}
+            <div className={`${activeTab === 'certificaciones' ? 'block' : 'hidden'}`}>
+              <div className="bg-white rounded-lg border border-gray-200 divide-y">
+                {CERTIFICATION_OPTIONS.map((cert) => (
+                  <label
+                    key={cert.value}
+                    className="flex items-center p-4 hover:bg-gray-50 cursor-pointer"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={selectedCertifications.includes(cert.value as Certification)}
+                      onChange={() => handleCertificationChange(cert.value as Certification)}
+                      className="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500"
+                    />
+                    <span className="ml-3 text-sm font-medium text-gray-700">{cert.label}</span>
+                  </label>
+                ))}
+              </div>
             </div>
           </div>
 
