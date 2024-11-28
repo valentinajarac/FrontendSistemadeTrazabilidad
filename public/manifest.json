@@ -1,7 +1,7 @@
 {
     "name": "Sistema de Trazabilidad Sembrando Futuro",
-    "short_name": "TrazaFrutas",
-    "description": "Sistema de trazabilidad para la producción de frutas",
+    "short_name": "TrazabilidadSF",
+    "description": "Sistema web de trazabilidad para el envio de frutas",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#ffffff",
