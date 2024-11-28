@@ -79,7 +79,7 @@ export const Users: React.FC = () => {
     try {
       setLoading(true);
       
-      // Asegurarse de que las certificaciones sean un array
+      
       const userData = {
         ...data,
         certifications: Array.isArray(data.certifications) ? data.certifications : [],
