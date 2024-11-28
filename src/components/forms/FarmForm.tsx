@@ -2,6 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Farm } from '../../types';
 import { Button } from '../ui/Button';
+import { MUNICIPALITIES } from '../../utils/municipalities';
 
 interface FarmFormProps {
   onSubmit: (data: Omit<Farm, 'id'>) => Promise<void>;
@@ -68,14 +69,18 @@ export function FarmForm({ onSubmit, initialData, onClose, loading }: FarmFormPr
         <label className="block text-sm font-medium text-gray-700">
           Municipio
         </label>
-        <input
-          type="text"
-          {...register('municipio', {
-            required: 'El municipio es requerido'
-          })}
+        <select
+          {...register('municipio', { required: 'El municipio es requerido' })}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200"
           disabled={loading}
-        />
+        >
+          <option value="">Seleccione un municipio</option>
+          {MUNICIPALITIES.map(municipio => (
+            <option key={municipio} value={municipio}>
+              {municipio}
+            </option>
+          ))}
+        </select>
         {errors.municipio && (
           <span className="text-red-500 text-sm">{errors.municipio.message}</span>
         )}

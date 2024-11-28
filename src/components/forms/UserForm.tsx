@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { User, Certification } from '../../../types';
 import { Button } from '../../ui/Button';
-import { UserCircle, Building2, Certificate, Key } from 'lucide-react';
+import { UserCircle, Building2, Key, Award } from 'lucide-react';
+import { MUNICIPALITIES } from '../../utils/municipalities';
 
 interface UserFormProps {
   onSubmit: (data: Omit<User, 'id'>) => Promise<void>;
@@ -49,7 +50,7 @@ export function UserForm({
     { id: 'personal', label: 'Datos Personales', icon: UserCircle },
     { id: 'ubicacion', label: 'Ubicación', icon: Building2 },
     { id: 'acceso', label: 'Acceso', icon: Key },
-    { id: 'certificaciones', label: 'Certificaciones', icon: Certificate }
+    { id: 'certificaciones', label: 'Certificaciones', icon: Award }
   ];
 
   return (
@@ -142,12 +143,18 @@ export function UserForm({
                   <label className="block text-sm font-medium text-gray-700">
                     Municipio
                   </label>
-                  <input
-                    type="text"
+                  <select
                     {...register('municipio', { required: 'El municipio es requerido' })}
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200"
                     disabled={loading}
-                  />
+                  >
+                    <option value="">Seleccione un municipio</option>
+                    {MUNICIPALITIES.map(municipio => (
+                      <option key={municipio} value={municipio}>
+                        {municipio}
+                      </option>
+                    ))}
+                  </select>
                   {errors.municipio && (
                     <span className="text-red-500 text-sm">{errors.municipio.message}</span>
                   )}
@@ -220,9 +227,7 @@ export function UserForm({
                     <span className="text-red-500 text-sm">{errors.password.message}</span>
                   )}
                 </div>
-              </div>
 
-              <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
                     Rol
@@ -261,23 +266,18 @@ export function UserForm({
             </div>
 
             {/* Certificaciones */}
-            <div className={`${activeTab === 'certificaciones' ? 'block' : 'hidden'}`}>
-              <div className="bg-white rounded-lg border border-gray-200 divide-y">
-                {CERTIFICATION_OPTIONS.map((cert) => (
-                  <label
-                    key={cert.value}
-                    className="flex items-center p-4 hover:bg-gray-50 cursor-pointer"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={selectedCertifications.includes(cert.value as Certification)}
-                      onChange={() => handleCertificationChange(cert.value as Certification)}
-                      className="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500"
-                    />
-                    <span className="ml-3 text-sm font-medium text-gray-700">{cert.label}</span>
-                  </label>
-                ))}
-              </div>
+            <div className={`space-y-2 ${activeTab === 'certificaciones' ? 'block' : 'hidden'}`}>
+              {CERTIFICATION_OPTIONS.map((cert) => (
+                <label key={cert.value} className="flex items-center space-x-2 p-2 rounded hover:bg-gray-50">
+                  <input
+                    type="checkbox"
+                    checked={selectedCertifications.includes(cert.value as Certification)}
+                    onChange={() => handleCertificationChange(cert.value as Certification)}
+                    className="rounded border-gray-300 text-green-600 focus:ring-green-500"
+                  />
+                  <span className="text-sm text-gray-700">{cert.label}</span>
+                </label>
+              ))}
             </div>
           </div>
 
