@@ -217,8 +217,8 @@ export const Clients: React.FC = () => {
                   {...register('floid', { 
                     required: 'El FLO ID es requerido',
                     pattern: {
-                      value: /^\d{4}$/,
-                      message: 'El FLO ID debe ser un número de 4 dígitos'
+                      value: /^\d{5}$/,
+                      message: 'El FLO ID debe ser un número de 5 dígitos'
                     }
                   })}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200"
