@@ -111,7 +111,7 @@ export function AdminDashboard() {
           loading={loading}
         />
         <Card
-          title="Certificación Fairtrade"
+          title="Certificación Fairtrade-USA"
           value={stats?.productoresFairtrade || 0}
           icon={Award}
           loading={loading}
