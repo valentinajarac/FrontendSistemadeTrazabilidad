@@ -1,12 +1,9 @@
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import React, { useState, useEffect } from 'react';
+import { useForm, Controller } from 'react-hook-form';
 import { User, Certification } from '../../types';
 import { Button } from '../ui/Button';
 import { UserCircle, Building2, Key, Award } from 'lucide-react';
 import { MUNICIPALITIES } from '../../utils/municipalities';
-
-import { MUNICIPALITIES } from '../../utils/municipalities';
-console.log('MUNICIPALITIES loaded:', MUNICIPALITIES);
 
 interface UserFormProps {
   onSubmit: (data: Omit<User, 'id'>) => Promise<void>;
@@ -30,12 +27,20 @@ export function UserForm({
   loading
 }: UserFormProps) {
   const [activeTab, setActiveTab] = useState<TabType>('personal');
-  
-  const { register, handleSubmit, formState: { errors }, setValue, watch } = useForm<Omit<User, 'id'>>({
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    watch,
+    control
+  } = useForm<Omit<User, 'id'>>({
     defaultValues: {
       ...initialData,
       status: initialData?.status || 'ACTIVO',
-      certifications: initialData?.certifications || []
+      certifications: initialData?.certifications || [],
+      municipio: initialData?.municipio || ''
     }
   });
 
@@ -55,6 +60,13 @@ export function UserForm({
     { id: 'acceso', label: 'Acceso', icon: Key },
     { id: 'certificaciones', label: 'Certificaciones', icon: Award }
   ];
+
+  // Asegurarse de que el municipio se establezca correctamente al cargar el formulario
+  useEffect(() => {
+    if (initialData?.municipio) {
+      setValue('municipio', initialData.municipio);
+    }
+  }, [initialData, setValue]);
 
   return (
     <div className="flex h-[600px] max-h-[80vh]">
@@ -146,18 +158,25 @@ export function UserForm({
                   <label className="block text-sm font-medium text-gray-700">
                     Municipio
                   </label>
-                  <select
-                    {...register('municipio', { required: 'El municipio es requerido' })}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200"
-                    disabled={loading}
-                  >
-                    <option value="">Seleccione un municipio</option>
-                    {MUNICIPALITIES.map(municipio => (
-                      <option key={municipio} value={municipio}>
-                        {municipio}
-                      </option>
-                    ))}
-                  </select>
+                  <Controller
+                    name="municipio"
+                    control={control}
+                    rules={{ required: 'El municipio es requerido' }}
+                    render={({ field }) => (
+                      <select
+                        {...field}
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200"
+                        disabled={loading}
+                      >
+                        <option value="">Seleccione un municipio</option>
+                        {MUNICIPALITIES.map(municipio => (
+                          <option key={municipio} value={municipio}>
+                            {municipio}
+                          </option>
+                        ))}
+                      </select>
+                    )}
+                  />
                   {errors.municipio && (
                     <span className="text-red-500 text-sm">{errors.municipio.message}</span>
                   )}
