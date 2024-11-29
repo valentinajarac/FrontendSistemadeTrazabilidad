@@ -9,6 +9,7 @@ import { Button } from '../../components/ui/Button';
 import { SearchBar } from '../../components/SearchBar';
 import { Modal } from '../../components/ui/Modal';
 import { Tabs } from '../../components/ui/Tabs';
+import { MUNICIPALITIES } from '../../utils/municipalities';
 
 const CERTIFICATION_OPTIONS = [
   { value: 'FAIRTRADE_USA', label: 'Fairtrade USA' },
@@ -289,21 +290,24 @@ export const Users: React.FC = () => {
               </div>
             </div>
 
-            {/* Ubicación */}
-            <div className={activeTab === 'ubicacion' ? 'block' : 'hidden'}>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Municipio</label>
-                  <input
-                    type="text"
-                    {...register('municipio', { required: 'El municipio es requerido' })}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200"
-                    disabled={loading}
-                  />
-                  {errors.municipio && (
-                    <span className="text-red-500 text-sm">{errors.municipio.message}</span>
-                  )}
-                </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Municipio</label>
+              <select
+                {...register('municipio', { required: 'El municipio es requerido' })}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200"
+                disabled={loading}
+              >
+                <option value="">Seleccione un municipio</option>
+                {MUNICIPALITIES.map(municipio => (
+                  <option key={municipio} value={municipio}>
+                    {municipio}
+                  </option>
+                ))}
+              </select>
+              {errors.municipio && (
+                <span className="text-red-500 text-sm">{errors.municipio.message}</span>
+              )}
+            </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Teléfono</label>
