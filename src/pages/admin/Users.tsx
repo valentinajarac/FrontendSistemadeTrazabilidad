@@ -41,21 +41,27 @@ export const Users: React.FC = () => {
  }, [searchTerm, users]);
 
  const filterUsers = () => {
-   if (!searchTerm.trim()) {
-     setFilteredUsers(users);
-     return;
-   }
-
-   const searchTermLower = searchTerm.toLowerCase();
-   const filtered = users.filter(user => 
-     user.cedula.toLowerCase().includes(searchTermLower) ||
-     user.nombreCompleto.toLowerCase().includes(searchTermLower) ||
-     user.codigoTrazabilidad.toLowerCase().includes(searchTermLower) ||
-     user.municipio.toLowerCase().includes(searchTermLower) ||
-     user.telefono.toLowerCase().includes(searchTermLower) ||
-     user.usuario.toLowerCase().includes(searchTermLower)
-   );
-   setFilteredUsers(filtered);
+  if (!searchTerm.trim()) {
+    setFilteredUsers(users);
+    return;
+  }
+ 
+  const searchTermLower = searchTerm.toLowerCase();
+  const filtered = users.filter(user => 
+    user.cedula.toLowerCase().includes(searchTermLower) ||
+    user.nombreCompleto.toLowerCase().includes(searchTermLower) ||
+    user.codigoTrazabilidad.toLowerCase().includes(searchTermLower) ||
+    user.municipio.toLowerCase().includes(searchTermLower) ||
+    user.telefono.toLowerCase().includes(searchTermLower) ||
+    user.usuario.toLowerCase().includes(searchTermLower) ||
+    user.status.toLowerCase().includes(searchTermLower) ||
+    user.role.toLowerCase().includes(searchTermLower) || 
+    (searchTermLower === 'activo' && user.status === 'ACTIVO') ||
+    (searchTermLower === 'inactivo' && user.status === 'INACTIVO') ||
+    (searchTermLower === 'administrador' && user.role === 'ADMIN') ||
+    (searchTermLower === 'productor' && user.role === 'PRODUCER')
+  );
+  setFilteredUsers(filtered);
  };
 
  const fetchUsers = async () => {
