@@ -8,9 +8,10 @@ import { Alert } from '../../components/ui/Alert';
 import { SearchBar } from '../../components/SearchBar';
 import { RemissionForm } from '../../components/forms/RemissionForm';
 import api from '../../api/config';
-import { format, parse } from 'date-fns';
+import { format, parse, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import * as XLSX from 'xlsx';
+
 
 export function Remissions() {
   const [remissions, setRemissions] = useState<Remission[]>([]);
@@ -52,7 +53,7 @@ export function Remissions() {
 
     const searchTermLower = searchTerm.toLowerCase();
     const filtered = remissions.filter(remission => 
-      format(new Date(remission.fechaDespacho), 'dd/MM/yyyy', { locale: es }).toLowerCase().includes(searchTermLower) ||
+      format(parseISO(remission.fechaDespacho), 'dd/MM/yyyy', { locale: es }).toLowerCase().includes(searchTermLower) ||
       remission.farm.nombre.toLowerCase().includes(searchTermLower) ||
       remission.producto.toLowerCase().includes(searchTermLower) ||
       remission.client.nombre.toLowerCase().includes(searchTermLower) ||
@@ -175,7 +176,7 @@ export function Remissions() {
   const exportToExcel = (data: Remission[], fileName: string) => {
     const worksheet = XLSX.utils.json_to_sheet(
       data.map(remission => ({
-        'Fecha': format(new Date(remission.fechaDespacho), 'dd/MM/yyyy', { locale: es }),
+        'Fecha': format(parseISO(remission.fechaDespacho), 'dd/MM/yyyy', { locale: es }),
         'Finca': remission.farm.nombre,
         'Producto': remission.producto.charAt(0) + remission.producto.slice(1).toLowerCase(),
         'Canastillas': remission.canastillasEnviadas,
@@ -239,7 +240,7 @@ export function Remissions() {
     { 
       key: 'fechaDespacho', 
       label: 'Fecha',
-      render: (value: string) => format(new Date(value), 'dd/MM/yyyy', { locale: es })
+      rrender: (value: string) => format(parseISO(value), 'dd/MM/yyyy', { locale: es })
     },
     { 
       key: 'farm.nombre', 
